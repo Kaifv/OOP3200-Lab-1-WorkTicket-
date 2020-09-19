@@ -84,17 +84,12 @@ int main()
 			inputNumber = ConsoleInput::ReadInteger(1);
 			arr[i].SetNumber(inputNumber);
 
+			
 			// Prompting the user to enter the client ID.
 			std::cout << "Enter the Client ID: ";
 			cin >> inputID;
-			if (inputID.length() >= 1)
-			{
-				arr[i].SetID(inputID);
-			}
-			else
-			{
-				throw invalid_argument("Error! Please enter the ID in the alphanumeric format");
-			}
+			arr[i].SetID(inputID);
+		
 
 			// Prompting the user to enter the date of their information. 
 			std::cout << "Enter the date(dd/mm/yyyy): ";
@@ -126,7 +121,7 @@ int main()
 	{
 		std::cout << "Your ticket number: " << arr[y].GetNumber() << endl;
 		std::cout << "Your entered client ID: " << arr[y].GetID() << endl;
-		std::cout << "Your entered date: " << arr[y].GetDay() << "/" << arr[i].GetMonth() << "/" << arr[i].GetYear() << endl;
+		std::cout << "Your entered date: " << arr[y].GetDay() << "/" << arr[y].GetMonth() << "/" << arr[y].GetYear() << endl;
 		std::cout << "Your entered description: " << arr[y].GetDescription() << endl;
 
 		std::cout << endl;
@@ -145,24 +140,36 @@ WorkTicket::WorkTicket(int ticketNumber, int ticketDay, int ticketMonth, int tic
 // Defining SetWorkTicket function with its parameters and if all are valid then return true.
 bool WorkTicket::SetWorkTicket(int ticketNumber, int ticketDay, int ticketMonth, int ticketYear, string clientID, string issueDescrip)
 {
-	SetNumber(ticketNumber);
+	if (ticketNumber > 0)
+	{
+		SetNumber(ticketNumber);
+	}
+	else
+	{
+		throw invalid_argument("Error! Please enter positive whole number");
+	}
 	SetDay(ticketDay);
 	SetMonth(ticketMonth);
 	SetYear(ticketYear);
-	SetID(std::move(clientID));
-	SetDescription(issueDescrip);
-
+	if (clientID.length() >= 1)
+	{
+		SetID(std::move(clientID));
+	}
+	if (issueDescrip.length() >= 1)
+	{
+		SetDescription(issueDescrip);
+	}
 	return true;
 }
 
 // Defining setter for ticket number which will validate the user input if it is in outside range.
 void WorkTicket::SetNumber(int ticketNumber)
 {
-	if (ticketNumber > 0)
-	{
+	/*if (ticketNumber > 0)
+	{*/
 		myticketNumber = ticketNumber;
-	}
-	/*else
+	/*}
+	else
 	{
 		throw invalid_argument("Error! Please enter positive whole number");
 	}*/
@@ -210,24 +217,13 @@ void WorkTicket::SetYear(int ticketYear)
 // Defining setter for client ID, so that it's length is always 1 or more.
 void WorkTicket::SetID(string clientId)
 {
-	/*if (clientId.length() >= 1)
-	{*/
 	myclientID = std::move(clientId);
-	//}
-
 }
 
 // Defining setter for description, so that it's length is always 1 or more.
 void WorkTicket::SetDescription(const string& issueDescrip)
 {
-	if (issueDescrip.length() >= 1)
-	{
-		myissueDescrip = issueDescrip;
-	}
-	/*else
-	{
-		throw invalid_argument("Error! Please enter the description, do not keep it empty");
-	}*/
+	myissueDescrip = issueDescrip;
 }
 
 // Defining getter for ticket number.
@@ -240,7 +236,6 @@ int WorkTicket::GetNumber()
 int WorkTicket::GetDay()
 {
 	return myticketDay;
-
 }
 
 // Defining getter for ticket month.
@@ -268,7 +263,14 @@ string WorkTicket::GetDescription()
 }
 
 // Defining getter to show the data in the proper format. 
-//string WorkTicket::ShowWorkTicket() const
-//{
-//   
-//}
+string WorkTicket::ShowWorkTicket() const
+{
+	stringstream output;
+
+	output << "Yout ticket number is " << myticketNumber << " and your client ID is "
+		<< myclientID << ". The problem you are facing is \"" << myissueDescrip << "\", and it was issued on the date "
+		<< myticketDay << "/" << myticketMonth << "/" << myticketYear;
+
+	return output.str();
+	
+}
