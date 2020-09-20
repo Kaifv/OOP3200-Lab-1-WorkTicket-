@@ -165,14 +165,14 @@ bool WorkTicket::SetWorkTicket(int ticketNumber, int ticketDay, int ticketMonth,
 // Defining setter for ticket number which will validate the user input if it is in outside range.
 void WorkTicket::SetNumber(int ticketNumber)
 {
-	/*if (ticketNumber > 0)
-	{*/
+	if (ticketNumber > 0)
+	{
 		myticketNumber = ticketNumber;
-	/*}
+	}
 	else
 	{
 		throw invalid_argument("Error! Please enter positive whole number");
-	}*/
+	}
 }
 
 // Defining setter for day attribute in date, so that it is always between 1 and 31.
