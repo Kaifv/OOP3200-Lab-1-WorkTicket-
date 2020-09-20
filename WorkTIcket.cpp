@@ -33,10 +33,14 @@ private:
 
 	// Public section of the class which will be available outside of the class also. 
 public:
+
+	
 	//Constructor - Parameterized constructor is the default value for the data entry of the attributes in the file whenever the input is not entered or
 	//proper. 
-	WorkTicket(int myticketNumber = 0, int myticketDay = 1, int myticketMonth = 1, int myticketYear = 2000, string myclientID = "", string myissueDescrip = "");
+	WorkTicket(int myticketNumber = 1, int myticketDay = 1, int myticketMonth = 1, int myticketYear = 2000, string myclientID = "", string myissueDescrip = "");
 
+
+	
 	// Accesors(getters) - This are the getters function which will be useful in displaying the values of the attributes in the console window. Getter function
 	//for each of the member of the attribute is added down below.
 	int GetNumber();
@@ -47,6 +51,8 @@ public:
 	string GetDescription();
 	string ShowWorkTicket() const;
 
+
+	
 	// Mutators(setters) - These the setters function which will manipulate the input in the attributes. Setter function for each of the attribute is added.:
 	void SetNumber(int ticketNumber);
 	void SetDay(int ticketDay);
@@ -92,10 +98,17 @@ int main()
 		
 
 			// Prompting the user to enter the date of their information. 
-			std::cout << "Enter the date(dd/mm/yyyy): ";
-			cin >> inputday >> inputMonth >> inputYear;
+			std::cout << "Enter the date\n";
+			std::cout << "Enter the day: ";
+			inputday = ConsoleInput::ReadInteger(1, 31);
 			arr[i].SetDay(inputday);
+			
+			std::cout << "Enter the month: ";
+			inputMonth = ConsoleInput::ReadInteger(1, 12);
 			arr[i].SetMonth(inputMonth);
+
+			std::cout << "Enter the year: ";
+			inputYear = ConsoleInput::ReadInteger(2000, 2099);
 			arr[i].SetYear(inputYear);
 
 			// Prompting the user to write the description of their problem. 
@@ -106,9 +119,9 @@ int main()
 			i++;
 		}
 		// We will catch the exception if any of the input values stands out the validation parameters.
-		catch (exception& ex)
+		catch ( const exception& ex)
 		{
-			cerr << ex.what();
+			cerr << ex.what() << " Ending the program." << endl;
 			i--;
 		}
 
@@ -116,7 +129,7 @@ int main()
 	std::cout << endl << endl;
 
 	//Now we will show the entered data by the user using a for loop.
-	std::cout << "You entered the noted below information, please check." << endl;
+	std::cout << "You entered the noted below information, please check.\n" << endl;
 	for (int y = 0; y < 3; y++)
 	{
 		std::cout << "Your ticket number: " << arr[y].GetNumber() << endl;
@@ -126,7 +139,8 @@ int main()
 
 		std::cout << endl;
 	}
-}
+	return 0;
+} //end of main function.
 
 // class definition section
 
@@ -140,25 +154,19 @@ WorkTicket::WorkTicket(int ticketNumber, int ticketDay, int ticketMonth, int tic
 // Defining SetWorkTicket function with its parameters and if all are valid then return true.
 bool WorkTicket::SetWorkTicket(int ticketNumber, int ticketDay, int ticketMonth, int ticketYear, string clientID, string issueDescrip)
 {
-	if (ticketNumber > 0)
-	{
+	
 		SetNumber(ticketNumber);
-	}
-	else
-	{
-		throw invalid_argument("Error! Please enter positive whole number");
-	}
-	SetDay(ticketDay);
-	SetMonth(ticketMonth);
-	SetYear(ticketYear);
-	if (clientID.length() >= 1)
-	{
+	
+		SetDay(ticketDay);
+	
+		SetMonth(ticketMonth);
+	
+		SetYear(ticketYear);
+	
 		SetID(std::move(clientID));
-	}
-	if (issueDescrip.length() >= 1)
-	{
+	
 		SetDescription(issueDescrip);
-	}
+	
 	return true;
 }
 
@@ -267,7 +275,7 @@ string WorkTicket::ShowWorkTicket() const
 {
 	stringstream output;
 
-	output << "Yout ticket number is " << myticketNumber << " and your client ID is "
+	output << "Your ticket number is " << myticketNumber << " and your client ID is "
 		<< myclientID << ". The problem you are facing is \"" << myissueDescrip << "\", and it was issued on the date "
 		<< myticketDay << "/" << myticketMonth << "/" << myticketYear;
 
