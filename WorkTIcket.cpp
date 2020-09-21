@@ -98,7 +98,7 @@ int main()
 		
 
 			// Prompting the user to enter the date of their information. 
-			std::cout << "Enter the date\n";
+			std::cout << "Enter the date, you will be prompted to enter day, month and year individually.\n";
 			std::cout << "Enter the day: ";
 			inputday = ConsoleInput::ReadInteger(1, 31);
 			arr[i].SetDay(inputday);
